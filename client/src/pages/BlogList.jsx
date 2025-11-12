@@ -23,15 +23,15 @@ export default function BlogList() {
 
   return (
     <section className="bg-black">
-      <div className="mx-auto max-w-6xl px-4 py-10">
+      <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="mb-6 flex items-center justify-between">
-          <h1 className="text-2xl font-bold">Latest Posts</h1>
+          <h1 className="text-2xl font-bold">Blog</h1>
           <form onSubmit={onSearch} className="flex gap-2">
-            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search posts..." className="w-56 rounded border border-gray-700 bg-black px-3 py-2 text-white placeholder-gray-400" />
+            <input value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Search captions..." className="w-56 rounded border border-gray-700 bg-black px-3 py-2 text-white placeholder-gray-400" />
             <button className="rounded bg-indigo-600 px-4 py-2 text-white">Search</button>
           </form>
         </div>
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+        <div className="flex flex-col gap-8">
           {posts.map((p) => <PostCard key={p.id} post={p} apiUrl={apiUrl} />)}
         </div>
         <div className="mt-8 flex items-center justify-center gap-3">

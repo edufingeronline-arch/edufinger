@@ -48,3 +48,9 @@ select:-webkit-autofill {
   transition: background-color 9999s ease-out 0s, color 9999s ease-out 0s;
   box-shadow: 0 0 0px 1000px #111827 inset; /* gray-900 */
 }
+
+/* Utilities for Instagram-style cards */
+.aspect-square { aspect-ratio: 1 / 1; }
+.ig-card { @apply overflow-hidden rounded-lg border border-gray-800 bg-black; }
+.ig-media { @apply w-full object-cover bg-gray-900; }
+.ig-caption { @apply p-4 whitespace-pre-wrap text-gray-200; }

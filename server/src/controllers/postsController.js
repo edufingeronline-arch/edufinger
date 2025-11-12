@@ -34,7 +34,11 @@ exports.listPosts = async (req, res) => {
       prisma.post.count({ where }),
       prisma.post.findMany({
         where,
-        include: { author: true, categories: true, tags: true },
+        include: {
+          author: { select: { id: true, email: true, name: true, role: true } },
+          categories: { select: { id: true, name: true } },
+          tags: { select: { id: true, name: true } }
+        },
         orderBy: { createdAt: 'desc' },
         skip,
         take: limit
@@ -53,7 +57,11 @@ exports.getPostBySlug = async (req, res) => {
     const { slug } = req.params;
     const post = await prisma.post.findUnique({
       where: { slug },
-      include: { author: true, categories: true, tags: true }
+      include: {
+        author: { select: { id: true, email: true, name: true, role: true } },
+        categories: { select: { id: true, name: true } },
+        tags: { select: { id: true, name: true } }
+      }
     });
     if (!post) return res.status(404).json({ error: 'Post not found' });
     return res.json(post);
@@ -195,4 +203,3 @@ exports.deletePost = async (req, res) => {
     return res.status(500).json({ error: 'Failed to delete post' });
   }
 };
-

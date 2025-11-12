@@ -7,17 +7,29 @@ export default function AdminLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   async function onSubmit(e) {
     e.preventDefault();
     setError('');
+    setLoading(true);
     try {
       const { data } = await api.post('/api/auth/login', { email, password });
       localStorage.setItem('token', data.token);
       navigate('/admin/posts');
     } catch (e) {
-      setError('Invalid credentials');
+      let msg = e?.response?.data?.error || '';
+      if (!msg) {
+        if (e?.code === 'ERR_NETWORK') {
+          msg = `Cannot reach API: ${api.defaults.baseURL}`;
+        } else {
+          msg = 'Invalid credentials';
+        }
+      }
+      setError(msg);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -49,7 +61,7 @@ export default function AdminLogin() {
           />
         </div>
         {error && <p className="text-sm text-red-600">{error}</p>}
-        <button className="w-full rounded bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700">Login</button>
+        <button disabled={loading} className="w-full rounded bg-indigo-600 px-4 py-2 font-semibold text-white hover:bg-indigo-700 disabled:opacity-60">{loading ? 'Logging in...' : 'Login'}</button>
       </form>
     </div>
   );
