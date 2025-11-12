@@ -9,7 +9,7 @@
     "migrate": "prisma migrate dev --name init",
     "migrate:deploy": "prisma migrate deploy",
     "seed": "node prisma/seed.js",
-    "postinstall": "prisma migrate deploy && node prisma/seed.js"
+    "render:start": "prisma migrate deploy && node prisma/seed.js && node src/index.js"
   },
   "dependencies": {
     "nodemailer": "^6.9.15",
