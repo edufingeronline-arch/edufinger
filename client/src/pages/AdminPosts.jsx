@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import api from '../lib/api';
+import SEO from '../components/SEO.jsx';
 import { useNavigate } from 'react-router-dom';
 
 export default function AdminPosts() {
@@ -80,6 +81,7 @@ export default function AdminPosts() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
+      <SEO title="Admin | Edufinger" description="Admin posts dashboard" path="/admin/posts" noindex />
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Admin Posts</h1>
         <button onClick={logout} className="text-sm text-red-600">Logout</button>

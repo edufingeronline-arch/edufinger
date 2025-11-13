@@ -1,4 +1,5 @@
 import React from 'react';
+import SEO from '../components/SEO.jsx';
 
 const books = [
   {
@@ -22,6 +23,11 @@ export default function Books() {
 
   return (
     <div className="bg-black">
+      <SEO
+        title="Edufinger Books | Exam Booster Notes"
+        description="Explore Edufinger Exam Booster notes and study resources crafted for Class 10 and 12 students."
+        path="/books"
+      />
       <section className="mx-auto max-w-6xl px-4 py-12">
         <header className="mb-10 text-center">
           <h1 className="text-3xl font-extrabold">Book Showcase</h1>

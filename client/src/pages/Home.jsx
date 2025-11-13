@@ -1,4 +1,5 @@
 import Hero from '../components/Hero.jsx';
+import SEO from '../components/SEO.jsx';
 import ContactForm from '../components/ContactForm.jsx';
 
 export default function Home() {
@@ -63,6 +64,22 @@ export default function Home() {
 
   return (
     <div>
+      <SEO
+        title="Edufinger | Class 10 and 12 Notes, Study Material, Tests"
+        description="Edufinger helps students of Class 10 and 12 with high‑quality notes, chapter‑wise study material, MCQ tests, and exam tips to ace board exams."
+        path="/"
+        jsonLd={{
+          '@context': 'https://schema.org',
+          '@type': 'Organization',
+          name: 'Edufinger',
+          url: 'https://www.edufinger.com/',
+          logo: 'https://www.edufinger.com/Edufinger-Education.png',
+          sameAs: [
+            'https://www.youtube.com/',
+            'https://www.instagram.com/'
+          ]
+        }}
+      />
       <Hero />
 
       {/* Founder section */}
@@ -127,7 +144,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <ContactForm /> */}
+       <ContactForm /> 
     </div>
   );
 }

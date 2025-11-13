@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../lib/api';
 import PostCard from '../components/PostCard.jsx';
+import SEO from '../components/SEO.jsx';
 
 export default function BlogList() {
   const [posts, setPosts] = useState([]);
@@ -23,6 +24,12 @@ export default function BlogList() {
 
   return (
     <section className="bg-black">
+      <SEO
+        title="Edufinger Blog | Study Tips, Notes, and Updates"
+        description="Articles from Edufinger on Class 10 and 12 preparation: study strategies, notes highlights, exam tips, and platform updates."
+        path="/blog"
+        type="website"
+      />
       <div className="mx-auto max-w-2xl px-4 py-8">
         <div className="mb-6 flex items-center justify-between">
           <h1 className="text-2xl font-bold">Blog</h1>

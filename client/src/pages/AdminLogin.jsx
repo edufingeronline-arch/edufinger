@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../lib/api';
+import SEO from '../components/SEO.jsx';
 
 export default function AdminLogin() {
   // Start with empty fields; avoid prefilled demo credentials
@@ -35,6 +36,7 @@ export default function AdminLogin() {
 
   return (
     <div className="mx-auto max-w-sm px-4 py-12">
+      <SEO title="Admin Login | Edufinger" description="Admin access for Edufinger" path="/admin/login" noindex />
       <h1 className="mb-6 text-center text-2xl font-bold">Admin Login</h1>
       <form onSubmit={onSubmit} autoComplete="off" className="space-y-4">
         <div>

@@ -8,6 +8,7 @@ require('dotenv').config();
 const authRoutes = require('./routes/auth');
 const postRoutes = require('./routes/posts');
 const contactRoutes = require('./routes/contact');
+const seoRoutes = require('./routes/seo');
 
 const app = express();
 
@@ -39,6 +40,7 @@ app.get('/api/health', (req, res) => res.json({ ok: true }));
 app.use('/api/auth', authRoutes);
 app.use('/api', postRoutes);
 app.use('/api', contactRoutes);
+app.use('/', seoRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err);

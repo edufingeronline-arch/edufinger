@@ -1,6 +1,15 @@
 const path = require('path');
 const fs = require('fs');
 const { PrismaClient } = require('@prisma/client');
+let cloudinary = null;
+try {
+  if (process.env.CLOUDINARY_URL) {
+    cloudinary = require('cloudinary').v2;
+    cloudinary.config({ secure: true });
+  }
+} catch (_) {
+  cloudinary = null;
+}
 const slugify = require('slugify');
 
 const prisma = new PrismaClient();
@@ -81,7 +90,22 @@ exports.createPost = async (req, res) => {
 
     const slug = slugify(title, { lower: true, strict: true });
 
-    const coverImage = req.file ? `/uploads/${req.file.filename}` : undefined;
+    let coverImage = undefined;
+    if (req.file) {
+      if (cloudinary) {
+        // upload buffer to Cloudinary
+        const url = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: 'blog', resource_type: 'image' },
+            (err, result) => (err ? reject(err) : resolve(result.secure_url))
+          );
+          stream.end(req.file.buffer);
+        });
+        coverImage = url;
+      } else {
+        coverImage = `/uploads/${req.file.filename}`;
+      }
+    }
 
     const connectOrCreateCategories = categories.map((name) => ({
       where: { name },
@@ -129,12 +153,23 @@ exports.updatePost = async (req, res) => {
 
     let coverImage = existing.coverImage;
     if (req.file) {
-      // remove old file (best effort)
-      if (coverImage && coverImage.startsWith('/uploads/')) {
-        const filePath = path.join(__dirname, '..', '..', coverImage);
-        fs.unlink(filePath, () => {});
+      if (cloudinary) {
+        const url = await new Promise((resolve, reject) => {
+          const stream = cloudinary.uploader.upload_stream(
+            { folder: 'blog', resource_type: 'image' },
+            (err, result) => (err ? reject(err) : resolve(result.secure_url))
+          );
+          stream.end(req.file.buffer);
+        });
+        coverImage = url;
+      } else {
+        // remove old local file (best effort), then set new path
+        if (coverImage && coverImage.startsWith('/uploads/')) {
+          const filePath = path.join(__dirname, '..', '..', coverImage);
+          fs.unlink(filePath, () => {});
+        }
+        coverImage = `/uploads/${req.file.filename}`;
       }
-      coverImage = `/uploads/${req.file.filename}`;
     }
 
     const data = {

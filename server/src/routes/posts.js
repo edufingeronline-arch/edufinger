@@ -11,14 +11,18 @@ const posts = require('../controllers/postsController');
 const uploadDir = path.join(__dirname, '..', '..', 'uploads');
 if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => cb(null, uploadDir),
-  filename: (req, file, cb) => {
-    const ext = path.extname(file.originalname);
-    const base = path.basename(file.originalname, ext).replace(/[^a-z0-9-_]/gi, '_');
-    cb(null, `${Date.now()}_${base}${ext}`);
-  }
-});
+// Use memory storage when CLOUDINARY_URL is configured to forward uploads
+// to Cloudinary in the controller; otherwise store locally on disk.
+const storage = process.env.CLOUDINARY_URL
+  ? multer.memoryStorage()
+  : multer.diskStorage({
+      destination: (req, file, cb) => cb(null, uploadDir),
+      filename: (req, file, cb) => {
+        const ext = path.extname(file.originalname);
+        const base = path.basename(file.originalname, ext).replace(/[^a-z0-9-_]/gi, '_');
+        cb(null, `${Date.now()}_${base}${ext}`);
+      }
+    });
 
 function fileFilter(req, file, cb) {
   if (/^image\//.test(file.mimetype)) cb(null, true);
@@ -37,4 +41,3 @@ router.put('/admin/posts/:id', auth, upload.single('coverImage'), posts.updatePo
 router.delete('/admin/posts/:id', auth, posts.deletePost);
 
 module.exports = router;
-

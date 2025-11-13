@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Avoid indexing admin UI routes if any
+Disallow: /admin
+Disallow: /admin/
+
+# Point to API-generated sitemap (includes blog posts)
+Sitemap: https://api.edufinger.com/sitemap.xml
+
