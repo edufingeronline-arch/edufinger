@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global theme: black background, white text, light-blue headings */
+html, body, #root { height: 100%; }
+:root, html, body, #root { @apply bg-black text-white; }
+h1, h2, h3 { @apply text-blue-300; }
+
+/* Inputs on dark background: ensure visible text and focus ring */
+input, textarea, select {
+  @apply bg-gray-900 text-white placeholder-gray-400 border border-gray-700;
+}
+input:focus, textarea:focus, select:focus {
+  @apply outline-none ring-2 ring-indigo-500 border-indigo-500;
+}
+
+/* Light card override: when using a white card/container,
+   switch typography and form controls to a light theme so
+   text is readable and controls match the surface. */
+.bg-white { @apply text-gray-900; }
+.bg-white input,
+.bg-white textarea,
+.bg-white select {
+  /* Avoid @apply bg-white here to prevent Tailwind circular dependency */
+  background-color: #ffffff; /* white */
+  color: #111827; /* gray-900 */
+  border-width: 1px;
+  border-color: #d1d5db; /* gray-300 */
+}
+.bg-white input::placeholder,
+.bg-white textarea::placeholder {
+  color: #6b7280; /* gray-500 */
+}
+.bg-white input:focus,
+.bg-white textarea:focus,
+.bg-white select:focus {
+  @apply ring-2 ring-indigo-500 border-indigo-500;
+}
+
+/* Tame Chrome's yellow autofill on dark theme */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: #fff;
+  transition: background-color 9999s ease-out 0s, color 9999s ease-out 0s;
+  box-shadow: 0 0 0px 1000px #111827 inset; /* gray-900 */
+}
+
+/* Utilities for Instagram-style cards */
+.aspect-square { aspect-ratio: 1 / 1; }
+.ig-card { @apply overflow-hidden rounded-lg border border-gray-800 bg-black; }
+.ig-media { @apply w-full object-cover bg-gray-900; }
+.ig-caption { @apply p-4 whitespace-pre-wrap text-gray-200; }
