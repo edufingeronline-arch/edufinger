@@ -46,11 +46,7 @@ export default function BlogList() {
           <span className="text-sm">Page {page} / {pages}</span>
           <button disabled={page >= pages} onClick={() => setPage((n) => n + 1)} className="rounded border px-3 py-1 disabled:opacity-50">Next</button>
         </div>
-        <div className="mt-6 text-right text-sm">
-          <Link className="text-blue-300 hover:underline" to="/admin/login">Admin Login</Link>
-        </div>
       </div>
     </section>
   );
 }
-

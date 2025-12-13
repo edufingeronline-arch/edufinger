@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const fsp = fs.promises;
 const { PrismaClient } = require('@prisma/client');
 let cloudinary = null;
 try {
@@ -20,6 +21,32 @@ function parseCommaList(value) {
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
+}
+
+async function uploadToCloudinary(file) {
+  if (!cloudinary || !file) return null;
+  return new Promise((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: 'blog', resource_type: 'image' },
+      (err, result) => (err ? reject(err) : resolve(result.secure_url))
+    );
+    stream.end(file.buffer);
+  });
+}
+
+async function saveLocalUpload(file) {
+  if (!file) return null;
+  const uploadDir = path.join(__dirname, '..', '..', 'uploads');
+  await fsp.mkdir(uploadDir, { recursive: true });
+  const ext = path.extname(file.originalname || '');
+  const base =
+    path.basename(file.originalname || 'upload', ext || '').replace(/[^a-z0-9-_]/gi, '_') || 'upload';
+  const filename = `${Date.now()}_${base}${ext || '.bin'}`;
+  const target = path.join(uploadDir, filename);
+  const data = file.buffer ?? (file.path ? await fsp.readFile(file.path) : null);
+  if (!data) throw new Error('Missing file buffer');
+  await fsp.writeFile(target, data);
+  return `/uploads/${filename}`;
 }
 
 exports.listPosts = async (req, res) => {
@@ -93,15 +120,12 @@ exports.createPost = async (req, res) => {
     let coverImage = undefined;
     if (req.file) {
       if (cloudinary) {
-        // upload buffer to Cloudinary
-        const url = await new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            { folder: 'blog', resource_type: 'image' },
-            (err, result) => (err ? reject(err) : resolve(result.secure_url))
-          );
-          stream.end(req.file.buffer);
-        });
-        coverImage = url;
+        try {
+          coverImage = await uploadToCloudinary(req.file);
+        } catch (err) {
+          console.error('Cloudinary upload failed, falling back to local file storage', err);
+          coverImage = await saveLocalUpload(req.file);
+        }
       } else {
         coverImage = `/uploads/${req.file.filename}`;
       }
@@ -158,14 +182,12 @@ exports.updatePost = async (req, res) => {
     let coverImage = existing.coverImage;
     if (req.file) {
       if (cloudinary) {
-        const url = await new Promise((resolve, reject) => {
-          const stream = cloudinary.uploader.upload_stream(
-            { folder: 'blog', resource_type: 'image' },
-            (err, result) => (err ? reject(err) : resolve(result.secure_url))
-          );
-          stream.end(req.file.buffer);
-        });
-        coverImage = url;
+        try {
+          coverImage = await uploadToCloudinary(req.file);
+        } catch (err) {
+          console.error('Cloudinary upload failed, falling back to local file storage', err);
+          coverImage = await saveLocalUpload(req.file);
+        }
       } else {
         // remove old local file (best effort), then set new path
         if (coverImage && coverImage.startsWith('/uploads/')) {

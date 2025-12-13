@@ -9,6 +9,7 @@
     "migrate": "prisma migrate dev --name init",
     "migrate:deploy": "prisma migrate deploy",
     "seed": "node prisma/seed.js",
+    "create:user": "node scripts/create-user.js",
     "render:start": "prisma migrate deploy && node prisma/seed.js && node src/index.js"
   },
   "dependencies": {
