@@ -14,6 +14,7 @@ const linkRoutes = require('./routes/links');
 const app = express();
 
 const PORT = process.env.PORT || 5000;
+const HOST = process.env.HOST || '0.0.0.0';
 const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean);
 const allowAllInDev = process.env.NODE_ENV !== 'production';
 
@@ -63,6 +64,6 @@ app.use((err, req, res, next) => {
   res.status(status).json({ error });
 });
 
-app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+app.listen(PORT, HOST, () => {
+  console.log(`Server listening on ${HOST}:${PORT}`);
 });
