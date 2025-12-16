@@ -13,7 +13,7 @@ const linkRoutes = require('./routes/links');
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 4000;
 const HOST = process.env.HOST || '0.0.0.0';
 const allowedOrigins = (process.env.CORS_ORIGIN || '').split(',').map((s) => s.trim()).filter(Boolean);
 const allowAllInDev = process.env.NODE_ENV !== 'production';
