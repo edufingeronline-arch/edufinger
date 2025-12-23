@@ -10,6 +10,7 @@ const postRoutes = require('./routes/posts');
 const contactRoutes = require('./routes/contact');
 const seoRoutes = require('./routes/seo');
 const linkRoutes = require('./routes/links');
+const entryRoutes = require('./routes/entries');
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api', postRoutes);
 app.use('/api', contactRoutes);
 app.use('/api', linkRoutes);
+app.use('/api', entryRoutes);
 app.use('/', seoRoutes);
 
 app.use((err, req, res, next) => {
@@ -67,3 +69,4 @@ app.use((err, req, res, next) => {
 app.listen(PORT, HOST, () => {
   console.log(`Server listening on ${HOST}:${PORT}`);
 });
+

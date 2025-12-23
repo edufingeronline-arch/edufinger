@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import api from '../lib/api';
+import api, { apiBase } from '../lib/api';
 import PostCard from '../components/PostCard.jsx';
 import SEO from '../components/SEO.jsx';
 
@@ -10,7 +10,7 @@ export default function BlogList() {
   const [pages, setPages] = useState(1);
   const [search, setSearch] = useState('');
 
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const apiUrl = apiBase;
 
   async function load() {
     const { data } = await api.get('/api/posts', { params: { page, search } });

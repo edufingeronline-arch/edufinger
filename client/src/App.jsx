@@ -10,6 +10,7 @@ import RequireAuth from './components/RequireAuth.jsx';
 import Books from './pages/Books.jsx';
 import Links from './pages/Links.jsx';
 import AdminLinks from './pages/AdminLinks.jsx';
+import Entry from './pages/Entry.jsx';
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/blog" element={<BlogList />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/books" element={<Books />} />
+          <Route path="/entry" element={<Entry />} />
           <Route path="/links" element={<Links />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/posts" element={<RequireAuth><AdminPosts /></RequireAuth>} />

@@ -54,3 +54,18 @@ model Link {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
+
+model Entry {
+  id           Int      @id @default(autoincrement())
+  ticketNumber String?  @unique
+  name         String
+  school       String
+  classLevel   String
+  phone        String
+  email        String
+  address      String
+  message      String
+  createdAt    DateTime @default(now())
+}
+

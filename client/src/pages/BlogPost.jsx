@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import api from '../lib/api';
+import api, { apiBase } from '../lib/api';
 import SEO from '../components/SEO.jsx';
 
 export default function BlogPost() {
   const { slug } = useParams();
   const [post, setPost] = useState(null);
-  const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  const apiUrl = apiBase;
 
   useEffect(() => {
     api.get(`/api/posts/${slug}`).then(({ data }) => setPost(data));
@@ -56,10 +56,9 @@ export default function BlogPost() {
       <div className="ig-caption">
         <p>{post.content || post.excerpt || post.title}</p>
         <p className="mt-2 text-xs text-gray-400">
-          {(post.author?.name || post.author?.email)} · {new Date(post.createdAt).toLocaleDateString()}
+          {(post.author?.name || post.author?.email)} | {new Date(post.createdAt).toLocaleDateString()}
         </p>
       </div>
     </article>
   );
 }
-

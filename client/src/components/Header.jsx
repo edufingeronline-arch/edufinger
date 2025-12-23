@@ -18,6 +18,7 @@ export default function Header() {
           <NavLink to="/" onClick={close} className={({ isActive }) => isActive ? 'text-white' : 'text-white/90 hover:text-white'}>Home</NavLink>
           <NavLink to="/blog" onClick={close} className={({ isActive }) => isActive ? 'text-white' : 'text-white/90 hover:text-white'}>Blog</NavLink>
           <NavLink to="/books" onClick={close} className={({ isActive }) => isActive ? 'text-white' : 'text-white/90 hover:text-white'}>Books</NavLink>
+          <NavLink to="/entry" onClick={close} className={({ isActive }) => isActive ? 'text-white' : 'text-white/90 hover:text-white'}>Entry</NavLink>
           <NavLink to="https://kasoti.pages.dev" onClick={close} className={({ isActive }) => isActive ? 'text-white' : 'text-white/90 hover:text-white'}>Kasoti</NavLink>
           <NavLink to="https://edufinger.graphy.com/courses/Udaan-Kit-by-Raj-Sir-for-Grade-10-GSEB-67f5007ba74d2578355d3511" onClick={close} className={({ isActive }) => isActive ? 'text-white' : 'text-white/90 hover:text-white'}>Udaan</NavLink>
           <NavLink to="/admin/login" onClick={close} className={({ isActive }) => isActive ? 'text-white' : 'text-white/90 hover:text-white'}>Khazana</NavLink>
@@ -54,6 +55,7 @@ export default function Header() {
               <li><NavLink to="/" onClick={close} className={({ isActive }) => isActive ? 'block rounded px-2 py-2 bg-white/10' : 'block rounded px-2 py-2 hover:bg-white/10'}>Home</NavLink></li>
               <li><NavLink to="/blog" onClick={close} className={({ isActive }) => isActive ? 'block rounded px-2 py-2 bg-white/10' : 'block rounded px-2 py-2 hover:bg-white/10'}>Blog</NavLink></li>
               <li><NavLink to="/books" onClick={close} className={({ isActive }) => isActive ? 'block rounded px-2 py-2 bg-white/10' : 'block rounded px-2 py-2 hover:bg-white/10'}>Books</NavLink></li>
+              <li><NavLink to="/entry" onClick={close} className={({ isActive }) => isActive ? 'block rounded px-2 py-2 bg-white/10' : 'block rounded px-2 py-2 hover:bg-white/10'}>Entry</NavLink></li>
               <li><NavLink to="/admin/login" onClick={close} className={({ isActive }) => isActive ? 'block rounded px-2 py-2 bg-white/10' : 'block rounded px-2 py-2 hover:bg-white/10'}>Kasoti</NavLink></li>
               <li><NavLink to="/admin/login" onClick={close} className={({ isActive }) => isActive ? 'block rounded px-2 py-2 bg-white/10' : 'block rounded px-2 py-2 hover:bg-white/10'}>Uddan</NavLink></li>
               <li><NavLink to="/admin/login" onClick={close} className={({ isActive }) => isActive ? 'block rounded px-2 py-2 bg-white/10' : 'block rounded px-2 py-2 hover:bg-white/10'}>Khazana</NavLink></li>
