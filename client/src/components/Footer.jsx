@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import api from "../lib/api";
 
 export default function Footer() {
   const [visitCount, setVisitCount] = useState(null);
+  const freeCounterRef = useRef(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -11,8 +12,8 @@ export default function Footer() {
       try {
         const hasCounted = typeof window !== "undefined" && sessionStorage.getItem("visit_counted");
         const response = hasCounted
-          ? await api.get("/visits")
-          : await api.post("/visits");
+          ? await api.get("/api/visits")
+          : await api.post("/api/visits");
 
         if (!hasCounted && typeof window !== "undefined") {
           sessionStorage.setItem("visit_counted", "1");
@@ -31,6 +32,24 @@ export default function Footer() {
     return () => {
       cancelled = true;
     };
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!freeCounterRef.current) return;
+    if (freeCounterRef.current.dataset.loaded === "1") return;
+
+    const authScript = document.createElement("script");
+    authScript.src = "https://www.freevisitorcounters.com/auth.php?id=cd3d7bbfb6340e0c56db72af98e72b1b381ab890";
+    authScript.async = true;
+
+    const counterScript = document.createElement("script");
+    counterScript.src = "https://www.freevisitorcounters.com/en/home/counter/1518051/t/2";
+    counterScript.async = true;
+
+    freeCounterRef.current.appendChild(authScript);
+    freeCounterRef.current.appendChild(counterScript);
+    freeCounterRef.current.dataset.loaded = "1";
   }, []);
 
   return (
@@ -80,7 +99,7 @@ export default function Footer() {
           <hr className="my-8 border-white/10" />
 
           <div className="flex flex-col items-center justify-between gap-3 text-sm text-white/90 md:flex-row">
-            <p>© {new Date().getFullYear()} Edufinger — All rights reserved. Designed and Developed by <a href="#" className="underline">Tech4webs</a>.</p>
+            <p>Â© {new Date().getFullYear()} Edufinger â€” All rights reserved. Designed and Developed by <a href="#" className="underline">Tech4webs</a>.</p>
             <p className="text-xs uppercase tracking-wide text-white/70">
               Total visitors: <span className="font-semibold text-white">{visitCount === null ? "..." : visitCount.toLocaleString()}</span>
             </p>
