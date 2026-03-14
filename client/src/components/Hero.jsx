@@ -2,11 +2,11 @@ import ImageSlider from "./ImageSlider.jsx";
 
 export default function Hero() {
   const images = [
-    "/UDAAN_KIT.jpg",
+    "/aarambh.png",
     "/Kasoti.jpg",
     "/Khazana(Notes).jpg",
   ];
-  const links = ["/books", "/blog", "edufinger.com"]; // update to your desired routes
+  const links = ["/Udaan", "/blog", "edufinger.com"]; // update to your desired routes
   const alts = ["UDAAN Kit", "Kasoti", "Khazana Notes"];
 
   return (

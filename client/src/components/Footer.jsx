@@ -1,4 +1,38 @@
+import { useEffect, useState } from "react";
+import api from "../lib/api";
+
 export default function Footer() {
+  const [visitCount, setVisitCount] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadVisits() {
+      try {
+        const hasCounted = typeof window !== "undefined" && sessionStorage.getItem("visit_counted");
+        const response = hasCounted
+          ? await api.get("/visits")
+          : await api.post("/visits");
+
+        if (!hasCounted && typeof window !== "undefined") {
+          sessionStorage.setItem("visit_counted", "1");
+        }
+
+        if (!cancelled) {
+          setVisitCount(response?.data?.count ?? 0);
+        }
+      } catch (err) {
+        if (!cancelled) setVisitCount(0);
+        console.error("Failed to load visit count", err);
+      }
+    }
+
+    loadVisits();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   return (
     <footer className="bg-black text-white">
       <div className="mx-auto max-w-7xl px-4 py-12">
@@ -33,11 +67,11 @@ export default function Footer() {
             <h4 className="mb-4 text-lg font-bold">Quick Links</h4>
             <ul className="space-y-2 text-white/90">
               <li><a className="hover:underline" href="/">Home</a></li>
-              <li><a className="hover:underline" href="/books">Udaan Kit</a></li>
+              <li><a className="hover:underline" href="/udaan">Udaan Kit</a></li>
               <li><a className="hover:underline" href="/blog">Blog</a></li>
               <li><a className="hover:underline" href="/books">Book</a></li>
               <li><a className="hover:underline" href="https://kasoti.pages.dev">Kasoti</a></li>
-              <li><a className="hover:underline" href="/admin/login">Khazana</a></li>
+              <li><a className="hover:underline" href="/khazana">Khazana</a></li>
               {/* <li><a className="hover:underline" href="/admin/login">Contact</a></li> */}
             </ul>
           </div>
@@ -47,6 +81,9 @@ export default function Footer() {
 
           <div className="flex flex-col items-center justify-between gap-3 text-sm text-white/90 md:flex-row">
             <p>© {new Date().getFullYear()} Edufinger — All rights reserved. Designed and Developed by <a href="#" className="underline">Tech4webs</a>.</p>
+            <p className="text-xs uppercase tracking-wide text-white/70">
+              Total visitors: <span className="font-semibold text-white">{visitCount === null ? "..." : visitCount.toLocaleString()}</span>
+            </p>
             <div className="flex items-center gap-6">
               <a href="#" className="hover:underline">Privacy Policy</a>
               <a href="#" className="hover:underline">Terms of Service</a>

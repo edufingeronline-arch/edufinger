@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+﻿import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header.jsx';
 import Footer from './components/Footer.jsx';
 import Home from './pages/Home.jsx';
@@ -8,9 +8,11 @@ import AdminLogin from './pages/AdminLogin.jsx';
 import AdminPosts from './pages/AdminPosts.jsx';
 import RequireAuth from './components/RequireAuth.jsx';
 import Books from './pages/Books.jsx';
+import Udaan from './pages/Udaan.jsx';
 import Links from './pages/Links.jsx';
 import AdminLinks from './pages/AdminLinks.jsx';
 import Entry from './pages/Entry.jsx';
+import Khazana from './pages/Khazana.jsx';
 
 export default function App() {
   return (
@@ -22,8 +24,10 @@ export default function App() {
           <Route path="/blog" element={<BlogList />} />
           <Route path="/blog/:slug" element={<BlogPost />} />
           <Route path="/books" element={<Books />} />
+          <Route path="/udaan" element={<Udaan />} />
           <Route path="/entry" element={<Entry />} />
           <Route path="/links" element={<Links />} />
+          <Route path="/khazana" element={<Khazana />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin/posts" element={<RequireAuth><AdminPosts /></RequireAuth>} />
           <Route path="/admin/links" element={<RequireAuth><AdminLinks /></RequireAuth>} />
@@ -33,3 +37,5 @@ export default function App() {
     </div>
   );
 }
+
+
